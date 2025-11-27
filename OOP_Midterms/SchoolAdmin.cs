@@ -15,10 +15,10 @@ namespace OOP_Midterms
         }
         public SchoolAdmin()
         {
-
+            Student students = new Student();
         }
 
-        public void AddStudentToClub()
+        public void AddNewStudentToClub()
         {
             DisplayClubs();
             Console.Write("Enter Club ID to join:");
@@ -39,13 +39,46 @@ namespace OOP_Midterms
                     string studentGrade = Console.ReadLine();
                     Console.Write("enter student section: ");
                     string studentSection = Console.ReadLine();
-                    AddStudent(GetNextStudentId(), studentFName, studentLName, studentAge, studentGrade, studentSection);
 
                     Student addedStudent = new Student(GetNextStudentId(), studentFName, studentLName, studentAge, studentGrade, studentSection);
+                    students.Add(addedStudent);
+
                     Console.WriteLine($"Add student to {club.Name}?");
                     Console.ReadLine();
                     clubs[i].Students.Add(addedStudent);
-                    Console.WriteLine($"Student {studentFName} {studentLName} added to club {clubs[i].Name}.");
+                    Console.WriteLine($"Student {studentFName} {studentLName} added to {clubs[i].Name}.");
+                    break;
+                }
+            }
+        }
+        public void AddExistingStudentToClub()
+        {
+            Student existingStudent = new Student();
+            DisplayClubs();
+            Console.Write("Enter Club ID to join:");
+            int clubId = int.Parse(Console.ReadLine());
+
+            for (int i = 0; i < clubs.Count; i++)
+            {
+                if (clubId == clubs[i].Id)
+                {
+                    var club = clubs[i];
+                    existingStudent.DisplayStudents();
+                    Console.Write("Enter Student ID to add to the club: ");
+                    int studentId = int.Parse(Console.ReadLine());
+
+                    existingStudent.FindStudent(studentId);
+                    if (existingStudent != null)
+                    {
+                        Console.WriteLine($"Add student to {club.Name}?");
+                        Console.ReadLine();
+                        clubs[i].Students.Add(existingStudent);
+                        Console.WriteLine($"Student {existingStudent.FirstName} {existingStudent.LastName} added to {clubs[i].Name}.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Student not found.");
+                    }
                     break;
                 }
             }
@@ -67,9 +100,9 @@ namespace OOP_Midterms
         {
             while (true)
             {
-                Console.WriteLine("1: see clubs\n2: add a student to a club" +
-                    "\n3: remove student from a club\n4: search club\n5: show students" +
-                    "\n6: membership history\n7: generate report\n8: quit system");
+                Console.WriteLine("1: display clubs\n2: add new student to a club\n3: add existing student to a club" +
+                    "\n4: remove student from a club\n5: show students" +
+                    "\n7: membership history\n8: generate report\n9: quit system");
                 Console.Write("please select an option: ");
                 int option = Convert.ToInt32(Console.ReadLine());
                 if (option == 1)
@@ -79,16 +112,17 @@ namespace OOP_Midterms
                 }
                 else if (option == 2)
                 {
-                    AddStudentToClub();
+                    AddNewStudentToClub();
                     ClearDisplay();
                 }
                 else if (option == 3)
                 {
-                    //RemoveStudentFromClub();
+                    AddExistingStudentToClub();
+                    ClearDisplay();
                 }
                 else if (option == 4)
                 {
-                    //SearchClub();
+                    //RemoveStudentFromClub();
                 }
                 else if (option == 5)
                 {
@@ -99,7 +133,7 @@ namespace OOP_Midterms
                 {
                     //MembershipHistory();
                 }
-                else if (option == 8)
+                else if (option == 7)
                 {
                     Console.WriteLine("Quitting the system.");
                     Console.ReadLine();

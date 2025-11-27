@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OOP_Midterms
 {
-    public class Student
+    public class Student : School
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -24,6 +24,10 @@ namespace OOP_Midterms
             GradeLevel = gradelevel;
             Section = section;
         }
+        public Student()
+        {
+
+        }
         public string GradeSection()
         {
             return $"{GradeLevel}-{Section}";
@@ -32,6 +36,46 @@ namespace OOP_Midterms
         {
             return $"{FirstName} {LastName}";
         }
-
+        public bool IsExistingInClub(int clubId)
+        {
+            foreach (var club in Clubs)
+            {
+                if (club.Id == clubId)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public void FindStudent(int id)
+        {
+            foreach (var student in students)
+            {
+                if (student.Id == id)
+                {
+                    Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeLevel}, Section: {student.Section}");
+                    return;
+                }
+            }
+            Console.WriteLine("Student not found.");
+        }
+        public void DisplayStudents()
+        {
+            foreach (var student in students)
+            {
+                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeLevel}, Section: {student.Section}");
+            }
+        }
+        public bool IsExisting(int id)
+        {
+            foreach (var student in students)
+            {
+                if (student.Id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

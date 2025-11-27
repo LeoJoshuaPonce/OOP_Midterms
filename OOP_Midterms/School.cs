@@ -10,7 +10,7 @@ namespace OOP_Midterms
     {
         public List<Club> clubs;
         public List<Student> students;
-        private string student = "";
+        private string memberListString = "";
         public School()
         {
             clubs = new List<Club>
@@ -40,10 +40,31 @@ namespace OOP_Midterms
                 {
                     students.Add(student.FullName());
                 }
-                student = string.Join(", ", students);
-                Console.WriteLine($"ID: {club.Id}, Name: {club.Name}, Schedule: {club.Schedule()} - {string.Join(", ", club.Days)}, Member/s: {student}");
+                memberListString = string.Join(", ", students);
+                Console.WriteLine($"ID: {club.Id}, Name: {club.Name}, Schedule: {club.Schedule()} - {string.Join(", ", club.Days)}, Member/s: {memberListString}");
             }
         }
+        public void DisplayClubs(int id)
+        {
+            bool foundAnyClub = false;
+            foreach (var club in clubs)
+            {
+                foreach (var student in club.Students)
+                {
+                    if (student.Id == id)
+                    {
+                        Console.WriteLine($"{club.Name}\n");
+                        foundAnyClub = true;
+                        break;
+                    }
+                }
+            }
+            if (!foundAnyClub)
+            {
+                Console.WriteLine($"No club joined for {students[id].FullName()}");
+            }
+        }
+
         public void ShowStudents()
         {
             foreach (Student student in students)
@@ -53,18 +74,12 @@ namespace OOP_Midterms
             Console.Write("Choose a student: ");
             int studentOption = int.Parse(Console.ReadLine());
 
-            for (int i = 0; i < students.Count(); i++)
+            for (int i = 0; i < students.Count; i++)
             {
                 if (students[i].Id == studentOption)
                 {
                     Console.WriteLine($"Student: {students[i].FullName()}\nGrade Level: {students[i].GradeLevel}\nSection: {students[i].Section}\nClubs:");
-                    foreach (var club in clubs)
-                    {
-                        if (club.Students[i] == students[i])
-                        {
-                            Console.WriteLine($"- {club.Name} ({club.Schedule()} - {string.Join(", ", club.Days)})");
-                        }
-                    }
+                    DisplayClubs(studentOption);
 
                     break;
                 }
