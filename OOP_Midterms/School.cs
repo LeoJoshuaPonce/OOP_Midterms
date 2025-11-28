@@ -64,12 +64,11 @@ namespace OOP_Midterms
                 Console.WriteLine($"No club joined for {students[id].FullName()}");
             }
         }
-
         public void ShowStudents()
         {
             foreach (Student student in students)
             {
-                Console.WriteLine($"{student.Id} {student.FullName()}, Grade {student.GradeLevel}, Section: {student.Section}");
+                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade&Section: {student.GradeSection()}, Section: {student.Section}");
             }
             Console.Write("Choose a student: ");
             int studentOption = int.Parse(Console.ReadLine());
@@ -80,10 +79,28 @@ namespace OOP_Midterms
                 {
                     Console.WriteLine($"Student: {students[i].FullName()}\nGrade Level: {students[i].GradeLevel}\nSection: {students[i].Section}\nClubs:");
                     DisplayClubs(studentOption);
-
                     break;
                 }
             }
+        }
+        public Student FindStudent()
+        {
+            foreach (var student in students)
+            {
+                return student;
+            }
+            return null;
+        }
+        public Student FindStudent(int id)
+        {
+            foreach (var student in students)
+            {
+                if (student.Id == id)
+                {
+                    return student;
+                }
+            }
+            return null;
         }
     }
 }

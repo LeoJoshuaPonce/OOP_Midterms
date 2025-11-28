@@ -47,24 +47,14 @@ namespace OOP_Midterms
             }
             return false;
         }
-        public void FindStudent(int id)
+
+        public Student DisplayStudents()
         {
-            foreach (var student in students)
+            foreach (Student student in students)
             {
-                if (student.Id == id)
-                {
-                    Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeLevel}, Section: {student.Section}");
-                    return;
-                }
+                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeSection()}, Section: {student.Section}");
             }
-            Console.WriteLine("Student not found.");
-        }
-        public void DisplayStudents()
-        {
-            foreach (var student in students)
-            {
-                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeLevel}, Section: {student.Section}");
-            }
+            return this;
         }
         public bool IsExisting(int id)
         {
