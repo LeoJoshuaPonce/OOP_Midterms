@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OOP_Midterms
 {
@@ -46,50 +43,69 @@ namespace OOP_Midterms
         }
         public void DisplayClubs(int id)
         {
-            bool foundAnyClub = false;
-            foreach (var club in clubs)
+            Student student = FindStudent(id);
+            if (student == null)
             {
-                foreach (var student in club.Students)
+                Console.WriteLine("student not found.");
+                return;
+            }
+
+            bool foundAnyClub = false;
+            for (int i = 0; i < clubs.Count; i++)
+            {
+                for (int j = 0; j < clubs[i].Students.Count; j++)
                 {
-                    if (student.Id == id)
+                    if (clubs[i].Students[j].Id == id)
                     {
-                        Console.WriteLine($"{club.Name}\n");
+                        Console.WriteLine(clubs[i].Name + "\n");
                         foundAnyClub = true;
                         break;
                     }
                 }
             }
+
             if (!foundAnyClub)
             {
-                Console.WriteLine($"No club joined for {students[id].FullName()}");
+                Console.WriteLine($"no club joined for {student.FullName()}");
             }
         }
         public void ShowStudents()
         {
-            foreach (Student student in students)
+            if (students == null || students.Count == 0)
             {
-                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade&Section: {student.GradeSection()}, Section: {student.Section}");
+                Console.WriteLine("no students available.");
+                return;
             }
-            Console.Write("Choose a student: ");
-            int studentOption = int.Parse(Console.ReadLine());
 
             for (int i = 0; i < students.Count; i++)
             {
-                if (students[i].Id == studentOption)
-                {
-                    Console.WriteLine($"Student: {students[i].FullName()}\nGrade Level: {students[i].GradeLevel}\nSection: {students[i].Section}\nClubs:");
-                    DisplayClubs(studentOption);
-                    break;
-                }
+                var student = students[i];
+                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade&Section: {student.GradeSection()}, Section: {student.Section}");
             }
-        }
-        public Student FindStudent()
-        {
-            foreach (var student in students)
+
+            Console.Write("Choose a student: ");
+            string input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input))
             {
-                return student;
+                Console.WriteLine("student selection is required.");
+                return;
             }
-            return null;
+
+            if (!int.TryParse(input, out int studentOption))
+            {
+                Console.WriteLine("Invalid student id.");
+                return;
+            }
+
+            Student found = FindStudent(studentOption);
+            if (found == null)
+            {
+                Console.WriteLine("Student not found.");
+                return;
+            }
+
+            Console.WriteLine($"student: {found.FullName()}\ngrade level: {found.GradeLevel}\nsection: {found.Section}\nclubs:");
+            DisplayClubs(studentOption);
         }
         public Student FindStudent(int id)
         {

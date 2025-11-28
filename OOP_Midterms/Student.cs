@@ -24,10 +24,6 @@ namespace OOP_Midterms
             GradeLevel = gradelevel;
             Section = section;
         }
-        public Student()
-        {
-
-        }
         public string GradeSection()
         {
             return $"{GradeLevel}-{Section}";
@@ -48,24 +44,24 @@ namespace OOP_Midterms
             return false;
         }
 
-        public Student DisplayStudents()
-        {
-            foreach (Student student in students)
-            {
-                Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeSection()}, Section: {student.Section}");
-            }
-            return this;
-        }
-        public bool IsExisting(int id)
-        {
-            foreach (var student in students)
-            {
-                if (student.Id == id)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        //public Student DisplayStudents()
+        //{
+        //    foreach (Student student in students)
+        //    {
+        //        Console.WriteLine($"ID: {student.Id}, Name: {student.FullName()}, Age: {student.Age}, Grade: {student.GradeSection()}, Section: {student.Section}");
+        //    }
+        //    return this;
+        //}
+        //public bool IsExisting(int id)
+        //{
+        //    foreach (var student in students)
+        //    {
+        //        if (student.Id == id)
+        //        {
+        //            return true;
+        //        }
+        //    }
+        //    return false;
+        //}
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OOP_Midterms
 {
@@ -30,6 +28,11 @@ namespace OOP_Midterms
             DisplayClubs();
             Console.Write("Enter Club ID to join: ");
             string clubInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(clubInput))
+            {
+                Console.WriteLine("Club ID is required.");
+                return;
+            }
             if (!int.TryParse(clubInput, out int clubId))
             {
                 Console.WriteLine("Invalid Club ID.");
@@ -54,11 +57,27 @@ namespace OOP_Midterms
 
             Console.Write("enter student first name: ");
             string studentFName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentFName))
+            {
+                Console.WriteLine("First name is required.");
+                return;
+            }
+
             Console.Write("enter student last name: ");
             string studentLName = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentLName))
+            {
+                Console.WriteLine("Last name is required.");
+                return;
+            }
 
             Console.Write("enter student age: ");
             string ageInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(ageInput))
+            {
+                Console.WriteLine("Age is required.");
+                return;
+            }
             if (!int.TryParse(ageInput, out int studentAge))
             {
                 Console.WriteLine("Invalid age.");
@@ -67,8 +86,19 @@ namespace OOP_Midterms
 
             Console.Write("enter student grade level: ");
             string studentGrade = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentGrade))
+            {
+                Console.WriteLine("Grade level is required.");
+                return;
+            }
+
             Console.Write("enter student section: ");
             string studentSection = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentSection))
+            {
+                Console.WriteLine("Section is required.");
+                return;
+            }
 
             Console.WriteLine($"Add student {studentFName} {studentLName} to {targetClub.Name}? Press Enter to confirm.");
             Console.ReadLine();
@@ -90,6 +120,11 @@ namespace OOP_Midterms
             DisplayClubs();
             Console.Write("enter the club id to join: ");
             string clubInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(clubInput))
+            {
+                Console.WriteLine("Club ID is required.");
+                return;
+            }
             if (!int.TryParse(clubInput, out int clubId))
             {
                 Console.WriteLine("invalid club id.");
@@ -126,6 +161,11 @@ namespace OOP_Midterms
 
             Console.Write("enter student id to add to the club: ");
             string studentInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentInput))
+            {
+                Console.WriteLine("Student ID is required.");
+                return;
+            }
             if (!int.TryParse(studentInput, out int selectedStudentId))
             {
                 Console.WriteLine("invalid student id.");
@@ -157,7 +197,7 @@ namespace OOP_Midterms
                 }
             }
 
-            Console.WriteLine($"addd student {studentFound.FullName()} to {targetClub.Name}? press enter to confirm.");
+            Console.WriteLine($"add student {studentFound.FullName()} to {targetClub.Name}? press enter to confirm.");
             Console.ReadLine();
 
             targetClub.Students.Add(studentFound);
@@ -184,6 +224,11 @@ namespace OOP_Midterms
 
             Console.Write("Enter Student ID to remove from a club: ");
             string studentInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(studentInput))
+            {
+                Console.WriteLine("Student ID is required.");
+                return;
+            }
             if (!int.TryParse(studentInput, out int studentId))
             {
                 Console.WriteLine("Invalid Student ID.");
@@ -233,15 +278,20 @@ namespace OOP_Midterms
 
             Console.Write("choose the club to remove the student from: ");
             string clubChoiceInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(clubChoiceInput))
+            {
+                Console.WriteLine("choice is required.");
+                return;
+            }
             if (!int.TryParse(clubChoiceInput, out int clubChoice) || clubChoice < 1 || clubChoice > memberClubs.Count)
             {
-                Console.WriteLine("Invalid choice.");
+                Console.WriteLine("invalid choice.");
                 return;
             }
 
             Club selectedClub = memberClubs[clubChoice - 1];
 
-            Console.WriteLine($"remove {targetStudent.FullName()} from {selectedClub.Name}? press Enter to confirm.");
+            Console.WriteLine($"remove {targetStudent.FullName()} from {selectedClub.Name}? press enter to confirm.");
             Console.ReadLine();
 
             for (int i = 0; i < selectedClub.Students.Count; i++)
@@ -272,8 +322,95 @@ namespace OOP_Midterms
                 }
             }
 
-            Console.WriteLine($"ttudent {targetStudent.FullName()} removed from {selectedClub.Name}.");
+            Console.WriteLine($"student {targetStudent.FullName()} removed from {selectedClub.Name}.");
         }
+
+        public void EditStudent()
+        {
+            if (students == null || students.Count == 0)
+            {
+                Console.WriteLine("No students available.");
+                return;
+            }
+
+            Console.WriteLine("Students:");
+            for (int i = 0; i < students.Count; i++)
+            {
+                Console.WriteLine($"{students[i].Id}: {students[i].FullName()} | {students[i].GradeSection()}");
+            }
+
+            Console.Write("Enter Student ID to edit: ");
+            string idInput = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(idInput))
+            {
+                Console.WriteLine("Student ID is required.");
+                return;
+            }
+            if (!int.TryParse(idInput, out int editId))
+            {
+                Console.WriteLine("Invalid Student ID.");
+                return;
+            }
+
+            Student targetStudent = null;
+            for (int i = 0; i < students.Count; i++)
+            {
+                if (students[i].Id == editId)
+                {
+                    targetStudent = students[i];
+                    break;
+                }
+            }
+
+            if (targetStudent == null)
+            {
+                Console.WriteLine("Student not found.");
+                return;
+            }
+
+            Console.Write($"First name ({targetStudent.FirstName}): ");
+            string fName = Console.ReadLine();
+
+            if (!string.IsNullOrWhiteSpace(fName))
+            {
+                targetStudent.FirstName = fName;
+            }
+
+            Console.Write($"Last name ({targetStudent.LastName}): ");
+            string lName = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(lName))
+            {
+                targetStudent.LastName = lName;
+            }
+
+            Console.Write($"Age ({targetStudent.Age}): ");
+            string ageStr = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(ageStr))
+            {
+                if (int.TryParse(ageStr, out int newAge))
+                {
+                    targetStudent.Age = newAge;
+                }
+
+                else Console.WriteLine("Invalid age input, keeping previous value.");
+            }
+
+            Console.Write($"Grade level ({targetStudent.GradeLevel}): ");
+            string grade = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(grade))
+            {
+                targetStudent.GradeLevel = grade;
+            }
+            Console.Write($"Section ({targetStudent.Section}): ");
+            string section = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(section))
+            {
+                targetStudent.Section = section;
+            }
+
+            Console.WriteLine("student updated.");
+        }
+
         public void GenerateReport()
         {
             if (clubs == null || clubs.Count == 0)
@@ -300,10 +437,10 @@ namespace OOP_Midterms
                     else
                     {
                         Console.WriteLine("\tcurrent members:");
-                        for (int m = 0; m < club.Students.Count; m++)
+                        for (int j = 0; j < club.Students.Count; j++)
                         {
-                            var s = club.Students[m];
-                            Console.WriteLine($"    {s.Id}: {s.FullName()}");
+                            Student s = club.Students[j];
+                            Console.WriteLine($"\t{s.Id}: {s.FullName()} | {s.GradeSection()}");
                         }
                     }
                 }
@@ -313,10 +450,10 @@ namespace OOP_Midterms
                     Console.WriteLine(" \tmembership records:");
                     for (int m = 0; m < clubMemberships.Count; m++)
                     {
-                        var mem = clubMemberships[m];
-                        string status = mem.Status ? "active" : "inactive";
-                        if (mem.Status) activeCount++;
-                        Console.WriteLine($"\t{mem.Student.Id}: {mem.Student.FullName()} | status: {status} | joined: {mem.JoinDate.ToShortDateString()}");
+                        Membership membership = clubMemberships[m];
+                        string status = membership.Status ? "active" : "inactive";
+                        if (membership.Status) activeCount++;
+                        Console.WriteLine($"\t{membership.Student.Id}: {membership.Student.FullName()} | status: {status} | joined: {membership.JoinDate.ToShortDateString()}");
                     }
                     Console.WriteLine($"\tactive memberships: {activeCount} / {clubMemberships.Count}");
                 }
@@ -345,44 +482,63 @@ namespace OOP_Midterms
             {
                 Console.WriteLine("1: display clubs\n2: add new student to a club\n3: add existing student to a club" +
                     "\n4: remove student from a club\n5: show students" +
-                    "\n6: membership history\n7: generate report\n8: quit system");
+                    "\n6: membership history\n7: edit student\n8: generate report\n9: quit system");
                 Console.Write("please select an option: ");
-                int option = Convert.ToInt32(Console.ReadLine());
-                if (option == 1)
+                string option = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(option))
+                {
+                    Console.WriteLine("option is required.");
+                    ClearDisplay();
+                    continue;
+                }
+                if (!int.TryParse(option, out int optionNumber))
+                {
+                    Console.WriteLine("invalid option, please try again.");
+                    ClearDisplay();
+                    continue;
+                }
+                if (optionNumber == 1)
                 {
                     DisplayClubs();
                     ClearDisplay();
                 }
-                else if (option == 2)
+                else if (optionNumber == 2)
                 {
                     AddNewStudentToClub();
                     ClearDisplay();
                 }
-                else if (option == 3)
+                else if (optionNumber == 3)
                 {
                     AddExistingStudentToClub();
                     ClearDisplay();
                 }
-                else if (option == 4)
+                else if (optionNumber == 4)
                 {
                     RemoveStudentFromClub();
                     ClearDisplay();
                 }
-                else if (option == 5)
+                else if (optionNumber == 5)
                 {
                     ShowStudents();
                     ClearDisplay();
                 }
-                else if (option == 6)
+                else if (optionNumber == 6)
                 {
                     MembershipHistory();
                     ClearDisplay();
                 }
-                else if (option == 7)
+                else if (optionNumber == 7)
+                {
+                    EditStudent();
+                    ClearDisplay();
+                }
+
+                else if (optionNumber == 8)
                 {
                     GenerateReport();
+                    ClearDisplay();
                 }
-                else if (option == 8)
+                else if (optionNumber == 9)
                 {
                     Console.WriteLine("Quitting the system.");
                     Console.ReadLine();
